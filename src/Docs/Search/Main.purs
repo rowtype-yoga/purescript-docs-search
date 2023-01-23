@@ -4,6 +4,7 @@ module Docs.Search.Main where
 import Docs.Search.Config as Config
 import Docs.Search.IndexBuilder as IndexBuilder
 import Docs.Search.Interactive as Interactive
+import Docs.Search.Http as Http
 import Docs.Search.Types (PackageName(..))
 
 import Prelude
@@ -34,6 +35,7 @@ main = do
   case fromMaybe defaultCommands args of
     BuildIndex cfg -> IndexBuilder.run cfg
     Search cfg -> Interactive.run cfg
+    Http cfg -> Http.run cfg
     Version -> log Config.version
 
 getArgs :: Effect (Maybe Commands)
@@ -48,6 +50,7 @@ getArgs = execParser opts
 data Commands
   = BuildIndex IndexBuilder.Config
   | Search Interactive.Config
+  | Http Interactive.Config
   | Version
 
 derive instance genericCommands :: Generic Commands _
@@ -65,6 +68,11 @@ commands = optional $ subparser
  <> command "search"
     ( info (startInteractive <**> helper)
       ( progDesc "Run the search engine."
+      )
+    )
+ <> command "http"
+    ( info (startHttp <**> helper)
+      ( progDesc "Run the http engine."
       )
     )
  <> command "version"
@@ -101,6 +109,14 @@ startInteractive = ado
   packageName <- packageNameOption
   sourceFiles <- sourceFilesOption
   in Search { docsFiles, bowerFiles, packageName, sourceFiles }
+
+startHttp :: Parser Commands
+startHttp = ado
+  docsFiles <- docsFilesOption
+  bowerFiles <- bowerFilesOption
+  packageName <- packageNameOption
+  sourceFiles <- sourceFilesOption
+  in Http { docsFiles, bowerFiles, packageName, sourceFiles }
 
 docsFilesOption :: Parser (Array String)
 docsFilesOption = fromMaybe defaultDocsFiles <$>

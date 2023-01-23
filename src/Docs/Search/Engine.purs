@@ -1,22 +1,25 @@
 module Docs.Search.Engine where
 
+import Prelude
+
+import Data.Argonaut (class DecodeJson, class EncodeJson)
+import Data.Argonaut.Decode.Generic (genericDecodeJson)
+import Data.Argonaut.Encode.Generic (genericEncodeJson)
+import Data.Array as Array
+import Data.Either (hush)
+import Data.Function (on)
+import Data.Generic.Rep (class Generic)
+import Data.List (List)
+import Data.Maybe (Maybe(..))
+import Data.Newtype (unwrap)
+import Data.Search.Trie (Trie)
+import Data.String.Common (toLower) as String
 import Docs.Search.ModuleIndex (ModuleIndex, ModuleResult)
 import Docs.Search.PackageIndex (PackageIndex, PackageResult)
 import Docs.Search.Score (Scores)
 import Docs.Search.SearchResult (SearchResult, typeOfResult)
 import Docs.Search.TypeQuery (TypeQuery(..), parseTypeQuery, penalty)
 import Docs.Search.Types (PackageInfo(..), ModuleName(..), PackageName(..), PackageScore)
-
-import Prelude
-
-import Data.Array as Array
-import Data.Either (hush)
-import Data.Function (on)
-import Data.List (List)
-import Data.Maybe (Maybe(..))
-import Data.Newtype (unwrap)
-import Data.Search.Trie (Trie)
-import Data.String.Common (toLower) as String
 
 
 type Index = Trie Char (List SearchResult)
@@ -64,7 +67,13 @@ data Result
   | TypeResult SearchResult
   | PackResult PackageResult
   | MdlResult  ModuleResult
+derive instance Generic Result _
 
+instance EncodeJson Result where
+  encodeJson = genericEncodeJson
+
+instance DecodeJson Result where
+  decodeJson = genericDecodeJson
 
 getResultScore :: Result -> PackageScore
 getResultScore (DeclResult r) = (unwrap r).score

@@ -3,6 +3,7 @@
 , dependencies =
   [ "aff"
   , "aff-promise"
+  , "argonaut"
   , "argonaut-codecs"
   , "argonaut-core"
   , "argonaut-generic"
@@ -19,6 +20,9 @@
   , "halogen"
   , "halogen-css"
   , "halogen-subscriptions"
+  , "httpurple"
+  , "httpurple-argonaut"
+  , "httpurple-yoga-json"
   , "identity"
   , "js-uri"
   , "lists"
@@ -26,6 +30,7 @@
   , "markdown-it-halogen"
   , "maybe"
   , "newtype"
+  , "next-website-commons"
   , "node-buffer"
   , "node-fs"
   , "node-fs-aff"
@@ -50,6 +55,7 @@
   , "web-html"
   , "web-storage"
   , "web-uievents"
+  , "yoga-json"
   ]
 , packages = ./packages.dhall
 }
