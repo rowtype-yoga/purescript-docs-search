@@ -113,7 +113,7 @@ run cfg = launchAff_ $ do
 
   liftEffect $ void do
 
-    serve { port: 8080 } { route, router: corsMiddleware corsUrl router }
+    serve { port: 9999 } { route, router: corsMiddleware corsUrl router }
 
 showResult :: Config -> Result -> Commons.SearchResult
 showResult cfg = case _ of
