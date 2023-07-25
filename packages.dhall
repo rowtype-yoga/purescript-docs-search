@@ -3,8 +3,8 @@ let mkPackage =
         sha256:0b197efa1d397ace6eb46b243ff2d73a3da5638d8d0ac8473e8e4a8fc528cf57
 
 let upstream =
-      https://github.com/purescript/package-sets/releases/download/psc-0.15.4-20220829/packages.dhall
-        sha256:9ec64ed24ec308770ccdd3d0edb74a814fcfbe34c7df5c28266935f0b5e585d7
+      https://github.com/purescript/package-sets/releases/download/psc-0.15.7-20230118/packages.dhall
+        sha256:973809c5d08a285ac10c6e66be04ca2c85a2d26493644e9196a6a411359f84b9
 
 let overrides = {=}
 
@@ -177,6 +177,8 @@ let additions =
             ]
             "https://github.com/jvliwanag/purescript-untagged-union.git"
             "ed8262a966e15e751322c327e2759a9b9c0ef3f3"
+      , next-website-commons =
+          ../purescript-next-website-commons/spago.dhall as Location
       }
 
 in  upstream // overrides // additions
